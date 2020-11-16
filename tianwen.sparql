@@ -1,0 +1,30 @@
+#defaultView:Map
+PREFIX dct: <http://purl.org/dc/terms/>
+PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+PREFIX dbc: <http://dbpedia.org/resource/Category:>
+PREFIX dbp: <http://dbpedia.org/property/>
+PREFIX dbo: <http://dbpedia.org/ontology/>
+
+# This makes a query for astronomers and cartographers in China, including the Jesuit missionaries.
+# Queries for their notable works and place of birth. A query on the wikidata endpoint results in a map
+# of their birthplaces with links to the notable works.
+
+SELECT DISTINCT ?place ?placeLabel ?work ?workLabel ?wditem ?wditemLabel ?deathDate $image ?location WHERE {
+   SERVICE <http://dbpedia.org/sparql> {
+      {?item dct:subject dbc:Chinese_astronomers } UNION
+      {?item dct:subject dbc:Chinese_cartographers } UNION
+      {?item dct:subject dbc:Jesuit_China_missions} .
+      ?item rdfs:label ?itemLabel FILTER (LANG(?itemLabel)="en") .
+      ?item owl:sameAs ?wditem FILTER regex (?wditem, "wikidata.org") .
+    }            
+    SERVICE <https://query.wikidata.org/sparql> { #Select from Wikidata
+      # ?wditem wdt:P569 ?birthDate . # date of birth
+      ?wditem wdt:P570 ?deathDate . # date of death
+      ?wditem wdt:P19 ?place .      # place of birth
+      ?place rdfs:label ?placeLabel FILTER (LANG(?placeLabel)="en") .
+      ?place wdt:P625|wdt:P1366+/wdt:P625 ?location .
+      OPTIONAL { ?wditem wdt:P18 ?image . } # Select an image (P18), if available
+      OPTIONAL { ?work wdt:P50 ?wditem . ?work rdfs:label ?workLabel FILTER (LANG(?workLabel)="en") .}
+      ?wditem rdfs:label ?wditemLabel FILTER (LANG(?wditemLabel)="en") . #Labels should be taken in English
+    }
+} ORDER BY ?deathDate
