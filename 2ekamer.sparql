@@ -1,0 +1,19 @@
+# Wat doen ze?
+#defaultView:BubbleChart
+SELECT ?werknaam (COUNT(*) AS ?tweedekamerleden) WHERE {
+  ?s wdt:P39  wd:Q18887908 ; # politicus Q82955, 2de kamerlid Q18887908
+     wdt:P27  wd:Q29999 ;
+     wdt:P106 ?werk ;
+     wdt:P19  ?geboorteplaats .
+  ?werk rdfs:label ?werknaam FILTER((LANG(?werknaam)) = "en") .
+  ?geboorteplaats wdt:P131 ?provincie .
+  ?provincie wdt:P31 wd:Q134390 .
+  ?provincie rdfs:label ?provincienaam FILTER((LANG(?provincienaam)) = "nl") .
+  # Alleen nederlandse labels en dat ze politicus zijn weten we al
+  FILTER(?werk != wd:Q82955)
+
+  SERVICE wikibase:label { bd:serviceParam wikibase:language "en, de, fr, de, ru, it, nl, es". }
+}
+GROUP BY ?werknaam
+ORDER BY DESC (?tweedekamerleden)
+LIMIT 20

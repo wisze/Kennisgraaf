@@ -1,0 +1,12 @@
+# Belangrijkste politici?
+# Hoe meer relaties hoe belangrijker
+#defaultView:BubbleChart
+SELECT ?naam (SUM(?link) AS ?belangrijkheid)
+WHERE {
+  ?politicus wdt:P106 wd:Q82955 ;
+             wdt:P27  wd:Q29999 .
+  ?politicus wikibase:sitelinks ?link.
+  ?politicus rdfs:label ?naam FILTER (lang(?naam)="nl")
+} GROUP BY ?naam
+ORDER BY DESC(?belangrijkheid)
+LIMIT 100
