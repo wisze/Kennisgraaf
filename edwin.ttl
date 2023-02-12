@@ -1,0 +1,13 @@
+@prefix : <http://example.org/> .
+@prefix foaf:   <http://xmlns.com/foaf/0.1/> .
+
+:edwin
+    a           foaf:Person ;
+    foaf:name “Edwin Wisse” ;
+    foaf:givenname “Edwin” ;
+    foaf:family_name “Wisse” ;
+    foaf.mbox <mailto:edwin@wisze.org> ; 
+    foaf:homepage <https://wiki.wisze.org/> ; 
+    foaf:workplaceHomepage <https://www.logius.nl/> ;
+    foaf:schoolHomepage “TU Delft”;
+.
