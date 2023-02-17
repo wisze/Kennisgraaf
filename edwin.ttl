@@ -1,7 +1,7 @@
-@prefix : <http://example.org/> .
+@prefix ex: <http://example.org/> .
 @prefix foaf:   <http://xmlns.com/foaf/0.1/> .
 
-:edwin
+ex:edwin
     a foaf:Person ;
     foaf:name "Edwin Wisse" ;
     foaf:givenname "Edwin" ;
@@ -9,5 +9,4 @@
     foaf:mbox <mailto:edwin@wisze.org> ; 
     foaf:homepage <https://wiki.wisze.org/> ; 
     foaf:workplaceHomepage <https://www.logius.nl/> ;
-    foaf:schoolHomepage “TU Delft”;
 .
